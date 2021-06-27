@@ -13,62 +13,86 @@ public class Pile implements PileI {
 
     private Object[] zone;
     private int ptr;
-
+    
+    public final static int TAILLE_PAR_DEFAUT = 6;
+    
     public Pile(int taille) {
-        // traiter le cas <=0
-        // a completer
+        if (taille < 0)
+            taille = TAILLE_PAR_DEFAUT;
+        this.zone = new Object[taille];
+        this.ptr = 0;
     }
 
     public Pile() {
-        this(0);
+        this(TAILLE_PAR_DEFAUT);
     }
 
     public void empiler(Object o) throws PilePleineException {
-        // a completer
+        if (estPleine())
+            throw new PilePleineException();
+        this.zone[this.ptr] = o;
+        this.ptr++;
     }
 
     public Object depiler() throws PileVideException {
-        // a completer
-        return null;
+        if (estVide())
+            throw new PileVideException();
+        this.ptr--;
+        return zone[ptr];
     }
 
     public Object sommet() throws PileVideException {
-        // a completer
-        return null;
+        if (estVide())
+            throw new PileVideException();
+            
+        return zone [0];
     }
 
     public int capacite() {
-        // a completer
-        return -1;
+        return zone.length;
     }
 
     public int taille() {
-        // a completer
-        return -1;
+        return this.ptr;
     }
 
     public boolean estVide() {
-        // a completer
-        return false;
+        return ptr == 0;
     }
 
     public boolean estPleine() {
-        // a completer
-        return false;
+        return ptr == zone.length;
     }
 
     public boolean equals(Object o) {
-        // a completer
-        return false;
-    }
+        if(o instanceof Pile){
+            Pile myPile = (Pile) o;
+        
+        if ( myPile.capacite() != this.capacite()){ 
+            return false;
+        }
+        for( int i = 0; i<zone.length; i++) {
+            if ( myPile.zone [i] != this.zone[i]){
+                return false;
+            }
+            else {continue ;}
+        
+    } 
+    }return true;
+}
 
-    // fonction fournie
     public int hashCode() {
         return toString().hashCode();
     }
 
     public String toString() {
-        // a completer
-        return null;
+        StringBuffer sb = new StringBuffer("[");
+        for (int i = ptr - 1; i >= 0; i--) {
+            sb.append(String.valueOf(zone[i]));
+            if (i > 0)
+                sb.append(", ");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
